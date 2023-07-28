@@ -1,5 +1,6 @@
 use crate::prelude::*;
 
+#[deprecated]
 pub struct Player {
     pub position: Point,
 }
