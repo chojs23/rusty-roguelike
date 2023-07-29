@@ -11,3 +11,6 @@ pub struct Player; // Tag Component
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Enemy; // Tag Component
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct MovingRandomly;
