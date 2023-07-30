@@ -10,6 +10,7 @@ mod turn_state;
 
 mod prelude {
     pub use bracket_lib::prelude::*;
+    pub use legion::systems::CommandBuffer;
     pub use legion::world::SubWorld;
     pub use legion::*;
 
