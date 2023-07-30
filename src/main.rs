@@ -66,7 +66,9 @@ impl State {
 
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
+        self.resources.insert(ctx.key);
         ctx.set_active_console(0);
+        self.resources.insert(Point::from_tuple(ctx.mouse_pos()));
         ctx.cls();
         ctx.set_active_console(1);
         ctx.cls();

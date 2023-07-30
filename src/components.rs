@@ -12,6 +12,9 @@ pub struct Player; // Tag Component
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Enemy; // Tag Component
 
+#[derive(Clone, PartialEq)]
+pub struct Name(pub String);
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Health {
     pub current: i32,
