@@ -3,6 +3,7 @@ use crate::prelude::*;
 mod collisions;
 mod end_turn;
 mod entity_render;
+mod hud;
 mod map_render;
 mod movement;
 mod player_input;
