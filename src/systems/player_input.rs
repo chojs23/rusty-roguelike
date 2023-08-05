@@ -14,8 +14,8 @@ pub fn player_input(
         let delta = match key {
             VirtualKeyCode::H => Point::new(-1, 0),
             VirtualKeyCode::L => Point::new(1, 0),
-            VirtualKeyCode::J => Point::new(0, -1),
-            VirtualKeyCode::K => Point::new(0, 1),
+            VirtualKeyCode::K => Point::new(0, -1),
+            VirtualKeyCode::J => Point::new(0, 1),
             _ => Point::new(0, 0),
         };
 
