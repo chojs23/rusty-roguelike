@@ -60,12 +60,6 @@ pub fn player_input(
         }
 
         if !did_something {
-            println!(
-                "{:?}",
-                ecs.entry_ref(player_entity)
-                    .unwrap()
-                    .get_component::<Health>()
-            );
             if let Ok(mut health) = ecs
                 .entry_mut(player_entity)
                 .unwrap()
