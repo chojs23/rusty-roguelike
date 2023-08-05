@@ -12,10 +12,10 @@ pub fn player_input(
     let mut players = <(Entity, &Point)>::query().filter(component::<Player>());
     if let Some(key) = *key {
         let delta = match key {
-            VirtualKeyCode::Left => Point::new(-1, 0),
-            VirtualKeyCode::Right => Point::new(1, 0),
-            VirtualKeyCode::Up => Point::new(0, -1),
-            VirtualKeyCode::Down => Point::new(0, 1),
+            VirtualKeyCode::H => Point::new(-1, 0),
+            VirtualKeyCode::L => Point::new(1, 0),
+            VirtualKeyCode::J => Point::new(0, -1),
+            VirtualKeyCode::K => Point::new(0, 1),
             _ => Point::new(0, 0),
         };
 
