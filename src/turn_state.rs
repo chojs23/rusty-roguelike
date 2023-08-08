@@ -4,9 +4,4 @@ pub enum TurnState {
     PlayerTurn,
     MonsterTurn,
     GameOver,
-<<<<<<< HEAD
-    Main,
-=======
-    Temp,
->>>>>>> temp
 }
