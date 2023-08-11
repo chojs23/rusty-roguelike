@@ -91,6 +91,19 @@ impl MapBuilder {
         for x in min(x1, x2)..max(x1, x2) {
             if let Some(idx) = self.map.try_idx(Point::new(x, y)) {
                 self.map.tiles[idx] = TileType::Floor;
+
+                if let Some(idx) = self.map.try_idx(Point::new(x, y - 1)) {
+                    self.map.tiles[idx] = TileType::Floor;
+                }
+                if let Some(idx) = self.map.try_idx(Point::new(x, y + 1)) {
+                    self.map.tiles[idx] = TileType::Floor;
+                }
+                if let Some(idx) = self.map.try_idx(Point::new(x - 1, y)) {
+                    self.map.tiles[idx] = TileType::Floor;
+                }
+                if let Some(idx) = self.map.try_idx(Point::new(x + 1, y)) {
+                    self.map.tiles[idx] = TileType::Floor;
+                }
             }
         }
     }
