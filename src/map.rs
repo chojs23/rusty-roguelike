@@ -37,6 +37,10 @@ impl BaseMap for Map {
         DistanceAlg::Pythagoras
             .distance2d(self.index_to_point2d(_idx1), self.index_to_point2d(_idx2))
     }
+
+    fn is_opaque(&self, idx: usize) -> bool {
+        self.tiles[idx] != TileType::Floor
+    }
 }
 
 impl Algorithm2D for Map {
