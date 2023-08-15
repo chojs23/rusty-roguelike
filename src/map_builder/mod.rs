@@ -1,9 +1,12 @@
 use crate::prelude::*;
 mod automata;
+mod drunkard;
 mod empty;
 mod rooms;
 
-use self::{automata::CellularAutomataArchitect, rooms::RoomsArchitect};
+use self::{
+    automata::CellularAutomataArchitect, drunkard::DrunkardsWalkArchitect, rooms::RoomsArchitect,
+};
 
 trait MapArchitect {
     fn new(&mut self, rng: &mut RandomNumberGenerator) -> MapBuilder;
@@ -20,7 +23,7 @@ pub struct MapBuilder {
 
 impl MapBuilder {
     pub fn new(rng: &mut RandomNumberGenerator) -> Self {
-        let mut architect = CellularAutomataArchitect {};
+        let mut architect = DrunkardsWalkArchitect {};
         architect.new(rng)
     }
 
