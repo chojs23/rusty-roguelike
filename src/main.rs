@@ -109,6 +109,7 @@ impl State {
         self.resources.insert(map_builder.map);
         self.resources.insert(Camera::new(map_builder.player_start));
         self.resources.insert(TurnState::AwaitingInput);
+        self.resources.insert(map_builder.theme);
     }
 
     fn victory(&mut self, ctx: &mut BTerm) {
@@ -130,6 +131,68 @@ impl State {
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
         }
+    }
+
+    fn advance_level(&mut self) {
+        let player_entity = <Entity>::query()
+            .filter(component::<Player>())
+            .iter(&self.ecs)
+            .next()
+            .unwrap();
+
+        let mut entities_to_keep = std::collections::HashSet::new();
+        entities_to_keep.insert(*player_entity);
+
+        <(Entity, &Carried)>::query()
+            .iter(&self.ecs)
+            .filter(|(_, carried)| carried.0 == *player_entity)
+            .map(|(entity, _)| *entity)
+            .for_each(|entity| {
+                entities_to_keep.insert(entity);
+            });
+
+        let mut cb = CommandBuffer::new(&self.ecs);
+        for entity in Entity::query().iter(&self.ecs) {
+            if !entities_to_keep.contains(entity) {
+                cb.remove(*entity);
+            }
+        }
+
+        cb.flush(&mut self.ecs, &mut self.resources);
+
+        <&mut FieldOfView>::query()
+            .iter_mut(&mut self.ecs)
+            .for_each(|fov| fov.is_dirty = true);
+
+        let mut rng = RandomNumberGenerator::new();
+        let mut map_builder = MapBuilder::new(&mut rng);
+
+        let mut map_level = 0;
+        <(&mut Player, &mut Point)>::query()
+            .iter_mut(&mut self.ecs)
+            .for_each(|(player, pos)| {
+                player.map_level += 1;
+                map_level = player.map_level;
+                pos.x = map_builder.player_start.x;
+                pos.y = map_builder.player_start.y;
+            });
+
+        if map_level == 2 {
+            spawn_amulet_of_yala(&mut self.ecs, map_builder.amulet_start);
+        } else {
+            let exit_idx = map_builder.map.point2d_to_index(map_builder.amulet_start);
+            map_builder.map.tiles[exit_idx] = TileType::Exit;
+        }
+
+        map_builder
+            .monster_spawns
+            .iter()
+            .for_each(|pos| spawn_monster(&mut self.ecs, &mut rng, *pos));
+
+        self.resources.insert(map_builder.map);
+        self.resources.insert(Camera::new(map_builder.player_start));
+        self.resources.insert(TurnState::AwaitingInput);
+        self.resources.insert(map_builder.theme);
     }
 }
 
@@ -160,6 +223,9 @@ impl GameState for State {
             }
             TurnState::Victory => {
                 self.victory(ctx);
+            }
+            TurnState::NextLevel => {
+                self.advance_level();
             }
         }
         render_draw_buffer(ctx).expect("Render error");
