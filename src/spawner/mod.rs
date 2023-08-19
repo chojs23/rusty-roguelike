@@ -1,4 +1,19 @@
+mod template;
+
 use crate::prelude::*;
+
+use template::Templates;
+
+pub fn spawn_level(
+    resources: &mut Resources,
+    ecs: &mut World,
+    rng: &mut RandomNumberGenerator,
+    level: usize,
+    spawn_points: &[Point],
+) {
+    let template = Templates::load();
+    template.spawn_entities(resources, ecs, rng, level, spawn_points);
+}
 
 pub fn spawn_player(ecs: &mut World, pos: Point) {
     ecs.push((
