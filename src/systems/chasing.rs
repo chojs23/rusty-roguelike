@@ -11,7 +11,7 @@ pub fn chasing(#[resource] map: &Map, ecs: &SubWorld, commands: &mut CommandBuff
     let mut positions = <(Entity, &Point, &Health)>::query();
     let mut player = <(&Point, &Player)>::query();
 
-    let players_pos = player.iter(ecs).nth(0).unwrap().0;
+    let players_pos = player.iter(ecs).next().unwrap().0;
     let player_idx = map_idx(players_pos.x, players_pos.y);
 
     let search_targets = vec![player_idx];

@@ -23,7 +23,8 @@ pub fn player_input(
             VirtualKeyCode::G => {
                 let (player_entity, player_pos) = players
                     .iter(ecs)
-                    .find_map(|(entity, pos)| Some((*entity, *pos)))
+                    .map(|(entity, pos)| (*entity, *pos))
+                    .next()
                     .unwrap();
 
                 let mut itmes = <(Entity, &Item, &Point)>::query();
@@ -51,7 +52,8 @@ pub fn player_input(
 
         let (player_entity, destination) = players
             .iter(ecs)
-            .find_map(|(entity, pos)| Some((*entity, *pos + delta)))
+            .map(|(entity, pos)| (*entity, *pos + delta))
+            .next()
             .unwrap();
 
         let mut enemies = <(Entity, &Point)>::query().filter(component::<Enemy>());
@@ -76,7 +78,6 @@ pub fn player_input(
                 });
 
             if !hit_something {
-                did_something = true;
                 commands.push((
                     (),
                     WantsToMove {

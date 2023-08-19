@@ -8,7 +8,7 @@ use crate::prelude::*;
 pub fn entity_render(ecs: &SubWorld, #[resource] camera: &Camera) {
     let mut renderables = <(&Point, &Render)>::query();
     let mut fov = <&FieldOfView>::query().filter(component::<Player>());
-    let player_fov = fov.iter(ecs).nth(0).unwrap();
+    let player_fov = fov.iter(ecs).next().unwrap();
 
     let mut draw_batch = DrawBatch::new();
     draw_batch.target(1);
