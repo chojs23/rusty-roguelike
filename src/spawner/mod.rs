@@ -12,6 +12,7 @@ pub fn spawn_level(
     spawn_points: &[Point],
 ) {
     let template = Templates::load();
+    println!("templates: {:?}", template);
     template.spawn_entities(resources, ecs, rng, level, spawn_points);
 }
 
@@ -28,6 +29,7 @@ pub fn spawn_player(ecs: &mut World, pos: Point) {
             max: 10,
         },
         FieldOfView::new(8),
+        Damage(1),
     ));
 }
 
